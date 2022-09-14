@@ -1,0 +1,69 @@
+default: swig wrapper shared smoketest_build
+
+# FIXME:  Currently macOS-specific
+# NOTE:  Must do $ brew install swig for this to build.
+
+CPP=g++
+SWIG_BIN=swig
+PROJECT_NAME=virtru
+INCLUDE_DIR=../../tdf-lib-cpp/include/
+JAVA_INCLUDE=/usr/local/Cellar/openjdk/14.0.1/libexec/openjdk.jdk/Contents/Home/include
+LIBRARY_DIR=../../tdf-lib-cpp/lib
+JAVA_SDK=/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk
+
+DIR_SRC=$(CURDIR)
+DIR_JAVA=java/target/swig
+JAVA_PKG=com/virtru
+
+#swig:
+#	${SWIG_BIN} -I${INCLUDE_DIR} -c++ -java ${PROJECT_NAME}.i
+swig:
+	mkdir -p $(DIR_SRC)/$(DIR_JAVA)/$(JAVA_PKG)
+	$(SWIG_BIN) -java -I${INCLUDE_DIR} -c++ \
+	  -outdir $(DIR_SRC)/$(DIR_JAVA)/$(JAVA_PKG) \
+	  -o $(DIR_SRC)/$(DIR_JAVA)/${PROJECT_NAME}_wrap.cxx ${PROJECT_NAME}.i
+
+
+wrapper: swig
+	${CPP} -fpic -c ${DIR_SRC}/${DIR_JAVA}/${PROJECT_NAME}_wrap.cxx \
+	  -I${INCLUDE_DIR} \
+	  -I${JAVA_INCLUDE} \
+	  -I${JAVA_INCLUDE}/darwin \
+	  -march=x86-64 -m64 -Wl,-rpath,@loader_path/. -Wall -fPIC -pthread -dynamiclib -undefined dynamic_lookup \
+	  -Wc++11-extensions \
+	  -Wc++11-long-long \
+	  -std=c++17 -std=c++11 \
+	  -L${LIBRARY_DIR} -Wl,-rpath,${LIBRARY_DIR}
+
+shared: swig wrapper
+	${CPP} -shared -isysroot ${JAVA_SDK} \
+	  -Wl,-search_paths_first -Wl,-headerpad_max_install_names -o lib${PROJECT_NAME}.dylib \
+	  ${PROJECT_NAME}_wrap.o -lc -lc++ \
+	  -Wc++11-extensions \
+	  -Wc++11-long-long \
+	  -std=c++17 -std=c++11 \
+	  -L${LIBRARY_DIR} \
+	   -Wl,-rpath,${LIBRARY_DIR} \
+	   -lvirtru_opentdf_static_combined -framework JavaVM
+
+.PHONY: smoketest_build
+smoketest_build:
+	javac -classpath ./all/target/virtru-sdk-all-1.9.9.jar smoketest/virtru_test.java
+
+.PHONY: smoketest
+smoketest:
+	cp smoketest/virtru_test.class .
+	java -classpath ./all/target/virtru-sdk-all-1.9.9.jar:. virtru_test
+
+.PHONY: dockerlinuxbuildimage
+dockerlinuxbuildimage:
+	cd ../../docker/ubuntu-18-04/src/
+	docker build -t tdf_build_java_linux .
+	cd ../../../src/java-bindings
+
+.PHONY: dockerlinuxrunbuild
+dockerlinuxrunbuild:
+	docker run -it -v ~/git/tdf-cpp:/home/virtru/local -u root tdf_build_java_linux /bin/bash	
+
+clean:
+	rm -f *.class *.dylib *_wrap.c *.cxx *.o *.java

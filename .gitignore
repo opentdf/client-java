@@ -1,0 +1,5 @@
+build/*
+tdf-lib-java/*
+*.zip
+*.gz
+src/target
