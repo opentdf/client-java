@@ -35,7 +35,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build-output
+          name: build-output-ubuntu
           path: |
             *.gz
 
@@ -71,7 +71,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build-output
+          name: build-output-windows
           path: |
             *.zip
 
@@ -100,7 +100,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build-output
+          name: build-output-mac
           path: |
             *.gz
 
