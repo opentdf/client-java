@@ -17,7 +17,7 @@ conan build .. --build-folder .
 set builderrorlevel=%errorlevel%
 if %builderrorlevel% neq 0 goto fin
 
-powershell -command Compress-Archive -Force -Path %PROJECT_DIR%\%TDF_JAVA_OUTPUT%\ -CompressionLevel Optimal -DestinationPath %PROJECT_DIR%\%TDF_JAVA_OUTPUT%%TDF_ZIP_SUFFIX%.zip
+powershell -command Compress-Archive -Force -Path %PROJECT_DIR%\%TDF_JAVA_OUTPUT%\ -CompressionLevel Optimal -DestinationPath %PROJECT_DIR%%TDF_JAVA_OUTPUT%%TDF_ZIP_SUFFIX%.zip
 
 :fin
 REM return to where we came from
