@@ -26,4 +26,9 @@ conan install .. --build=missing
 conan build .. -bf .
 cd ..
 
+cp native-*/target/tdf-sdk-*.jar $TDF_JAVA_LIB_OUTPUT
+cp LICENSE $TDF_JAVA_LIB_OUTPUT
+cp README.md $TDF_JAVA_LIB_OUTPUT
+cp VERSION $TDF_JAVA_LIB_OUTPUT
+cp -rp examples $TDF_JAVA_LIB_OUTPUT
 tar -zcvf "$TDF_JAVA_LIB_ARCHIVE" "$TDF_JAVA_LIB_OUTPUT"
