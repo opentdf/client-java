@@ -2,4 +2,6 @@ build/*
 tdf-lib-java/*
 *.zip
 *.gz
-src/target
+target
+native*/dependency-reduced-pom.xml
+native*/target/
