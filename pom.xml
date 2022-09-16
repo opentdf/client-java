@@ -6,14 +6,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.virtru</groupId>
-  <artifactId>tdf-sdk-osx_64</artifactId>
+  <artifactId>tdf-sdk</artifactId>
   <version>1.9.9</version>
   <packaging>jar</packaging>
 
-  <name>TDF SDK</name>
-  <description></description>
+  <name>TDF Java SDK</name>
+  <description>TDF Java SDK</description>
   <url>https://developer.virtru.com</url>
-  <inceptionYear>2021</inceptionYear>
+  <inceptionYear>2020</inceptionYear>
 
     <licenses>
         <license>
@@ -62,11 +62,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.virtru</groupId>
-      <artifactId>tdf-sdk</artifactId>
-      <version>1.9.9</version>
-    </dependency>
-    <dependency>
       <groupId>org.scijava</groupId>
       <artifactId>native-lib-loader</artifactId>
       <version>2.1.4</version>
@@ -83,58 +78,43 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.5.1</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.0.1</version>
         <configuration>
           <encoding>UTF-8</encoding>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.12</version>
         <executions>
-
           <execution>
-            <id>copy-osx_64-resources</id>
-            <phase>validate</phase>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
             <goals>
-              <goal>copy-resources</goal>
+              <goal>add-source</goal>
             </goals>
             <configuration>
-              <outputDirectory>
-                <!-- N.B.  This copies the native libraries to the root
-                  directory.  If we don't do this, then they end up in, say,
-                  META-INF/lib/osx_64 for macOS, and then the loader can't find
-                  them.  It only seems to find them in the root directory, and
-                  I can't figure out how else to do it...
-
-                  ${basedir}/target/native-resources/META-INF/lib/osx_64 -->
-                ${basedir}/target/native-resources
-              </outputDirectory>
-              <resources>
-                <resource>
-                  <directory>
-                    ${basedir}/../build/lib
-                  </directory>
-                  <includes>
-                    <include>*.dylib</include>
-                  </includes>
-                </resource>
-              </resources>
+              <sources>
+                <source>${basedir}/target/swig/</source>
+              </sources>
             </configuration>
           </execution>
 
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>2.4.3</version>
-        <executions>
-          <execution>
-          <phase>package</phase>
-          <goals>
-            <goal>shade</goal>
-          </goals>
-          </execution>
-        </executions>
-      </plugin>
+
     </plugins>
   </build>
 
@@ -152,6 +132,5 @@
             <snapshots><enabled>false</enabled></snapshots>
         </repository>
     </distributionManagement>
-
 
 </project>

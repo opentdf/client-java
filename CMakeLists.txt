@@ -68,7 +68,7 @@ message(STATUS "Conan libs = ${CONAN_LIBS}")
 set(CMAKE_SWIG_FLAGS -package com.virtru)
 
 set(TDF_SWIG_JAVA_VERSION "1.9.9")
-set(TDF_SWIG_JAVA_TARGET_DIR ${PROJECT_SOURCE_DIR}/build/target/swig)
+set(TDF_SWIG_JAVA_TARGET_DIR ${PROJECT_SOURCE_DIR}/target/swig)
 set(TDF_SWIG_JAVA_COMVIRTRU "com.virtru")
 set(TDF_SWIG_JAVA_JAVADOC "true")
 
@@ -105,9 +105,7 @@ set(TDF_LIB_INSTALL_LOCATION  ${PROJECT_SOURCE_DIR}/tdf-lib-java)
 set(TDF_LIB_JAVA_INSTALL_LOCATION  ${TDF_LIB_INSTALL_LOCATION})
 install(DIRECTORY DESTINATION ${TDF_LIB_JAVA_INSTALL_LOCATION})
 
-# Need to figure out a way to pull bins from other platform builds so they can be combined into an 'all' version
-# this will need to be a separate buildkite step that downloads the results from each platform step to combine into 'all' version
-#set(TDF_SWIG_JAVA_ALL_JAR "all/target/tdf-sdk-all-${TDF_SWIG_JAVA_VERSION}.jar")
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND mvn -f ${PROJECT_SOURCE_DIR}/pom.xml install)
 
 if($ENV{VBUILD_JAVA_MULTI} MATCHES "true")
     set(TDF_SWIG_JAVA_PLAT_NAME "multi")
