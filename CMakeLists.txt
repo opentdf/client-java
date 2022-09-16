@@ -68,7 +68,7 @@ message(STATUS "Conan libs = ${CONAN_LIBS}")
 set(CMAKE_SWIG_FLAGS -package com.virtru)
 
 set(TDF_SWIG_JAVA_VERSION "1.9.9")
-set(TDF_SWIG_JAVA_TARGET_DIR ${PROJECT_SOURCE_DIR}/build/java-bindings/target/swig)
+set(TDF_SWIG_JAVA_TARGET_DIR ${PROJECT_SOURCE_DIR}/target/swig)
 set(TDF_SWIG_JAVA_COMVIRTRU "com.virtru")
 set(TDF_SWIG_JAVA_JAVADOC "true")
 
@@ -101,15 +101,11 @@ endif()
 ############################################################
 
 # Create java distribution directory
-set(TDF_LIB_INSTALL_LOCATION  ${PROJECT_SOURCE_DIR}/../../tdf-lib-java)
+set(TDF_LIB_INSTALL_LOCATION  ${PROJECT_SOURCE_DIR}/tdf-lib-java)
 set(TDF_LIB_JAVA_INSTALL_LOCATION  ${TDF_LIB_INSTALL_LOCATION})
 install(DIRECTORY DESTINATION ${TDF_LIB_JAVA_INSTALL_LOCATION})
 
-# Need to figure out a way to pull bins from other platform builds so they can be combined into an 'all' version
-# this will need to be a separate buildkite step that downloads the results from each platform step to combine into 'all' version
-#set(TDF_SWIG_JAVA_ALL_JAR "all/target/tdf-sdk-all-${TDF_SWIG_JAVA_VERSION}.jar")
-
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND mvn -f ${TDF_SWIG_JAVA_SOURCE_DIR}/pom.xml install)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND mvn -f ${PROJECT_SOURCE_DIR}/pom.xml install)
 
 if($ENV{VBUILD_JAVA_MULTI} MATCHES "true")
     set(TDF_SWIG_JAVA_PLAT_NAME "multi")
@@ -130,6 +126,7 @@ endif()
 set(TDF_SWIG_JAVA_PLAT_JAR "native-${TDF_SWIG_JAVA_PLAT_NAME}/target/tdf-sdk-${TDF_SWIG_JAVA_PLAT_NAME}-${TDF_SWIG_JAVA_VERSION}.jar")
 set(TDF_JAVA_EXAMPLES ${PROJECT_SOURCE_DIR}/examples)
 set(TDF_JAVA_DOC ${TDF_SWIG_JAVA_TARGET_DIR}/doc)
+message(STATUS "TDF_JAVA_DOC=${TDF_JAVA_DOC}")
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND mvn -f ${TDF_SWIG_JAVA_SOURCE_DIR}/native-${TDF_SWIG_JAVA_PLAT_NAME}/pom.xml install)
 
@@ -139,14 +136,14 @@ if(${TDF_SWIG_JAVA_JAVADOC} MATCHES "true")
 endif()
 
 # Copy the jarfile
-install(FILES ${TDF_SWIG_JAVA_PLAT_JAR} DESTINATION ${TDF_LIB_JAVA_INSTALL_LOCATION})
+#TODO install(FILES ${TDF_SWIG_JAVA_PLAT_JAR} DESTINATION ${TDF_LIB_JAVA_INSTALL_LOCATION})
 
 # Copy the sample dir
 file(COPY ${TDF_JAVA_EXAMPLES} DESTINATION ${TDF_LIB_JAVA_INSTALL_LOCATION})
 
 if(${TDF_SWIG_JAVA_JAVADOC} MATCHES "true")
   # Copy the doc dir
-  install(DIRECTORY ${TDF_JAVA_DOC} DESTINATION ${TDF_LIB_JAVA_INSTALL_LOCATION})
+  #TODO install(DIRECTORY ${TDF_JAVA_DOC}/ DESTINATION ${TDF_LIB_JAVA_INSTALL_LOCATION}/doc)
 endif()
 
 # Copy the README, VERSION, and LICENSE

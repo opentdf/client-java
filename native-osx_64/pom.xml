@@ -110,7 +110,7 @@
               <resources>
                 <resource>
                   <directory>
-                    ${basedir}/../../build/java-bindings/swig_generated_lib
+                    ${basedir}/../build/lib
                   </directory>
                   <includes>
                     <include>*.dylib</include>

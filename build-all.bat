@@ -18,11 +18,8 @@ conan build .. --build-folder .
 set builderrorlevel=%errorlevel%
 if %builderrorlevel% neq 0 goto fin
 
-copy %PROJECT_DIR%\target\tdf-sdk-*.jar %PROJECT_DIR%%TDF_JAVA_OUTPUT%\
-copy %PROJECT_DIR%\LICENSE %PROJECT_DIR%%TDF_JAVA_OUTPUT%\
-copy %PROJECT_DIR%\README.md %PROJECT_DIR%%TDF_JAVA_OUTPUT%\
-copy %PROJECT_DIR%\VERSION %PROJECT_DIR%%TDF_JAVA_OUTPUT%\
-xcopy /s %PROJECT_DIR%\examples %PROJECT_DIR%%TDF_JAVA_OUTPUT%\examples\
+copy %PROJECT_DIR%\native-win_64\target\tdf-sdk-*.jar %PROJECT_DIR%%TDF_JAVA_OUTPUT%\
+xcopy /s %PROJECT_DIR%\target\swig\doc %PROJECT_DIR%%TDF_JAVA_OUTPUT%\
 
 powershell -command Compress-Archive -Force -Path %PROJECT_DIR%%TDF_JAVA_OUTPUT%\ -CompressionLevel Optimal -DestinationPath %PROJECT_DIR%%TDF_JAVA_OUTPUT%%TDF_ZIP_SUFFIX%.zip
 

@@ -107,7 +107,7 @@
             </goals>
             <configuration>
               <sources>
-                <source>${basedir}/../build/java-bindings/target/swig/</source>
+                <source>${basedir}/target/swig/</source>
               </sources>
             </configuration>
           </execution>
