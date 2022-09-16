@@ -86,11 +86,21 @@ public class virtru_java_sample {
          creds.setClientCredentialsClientSecret(k.clientId, k.clientSecret, k.organizationName, k.oidcEndpoint);
          NanoTDFClient client = new NanoTDFClient(creds, k.kasUrl);
 
-         client.encryptFile(td.plaintextFile.getAbsolutePath(), td.encryptedFile.getAbsolutePath());
-         client.decryptFile(td.encryptedFile.getAbsolutePath(), td.decryptedFile.getAbsolutePath());
+         TDFStorageType plaintextFileStorage = new TDFStorageType();
+         plaintextFileStorage.setTDFStorageFileType(td.plaintextFile.getAbsolutePath());
+         client.encryptFile(plaintextFileStorage, td.encryptedFile.getAbsolutePath());
 
-         td.encryptedData = client.encryptData(td.plaintextData);
-         td.decryptedData = client.decryptData(td.encryptedData);
+         TDFStorageType encryptedFileStorage = new TDFStorageType();
+         encryptedFileStorage.setTDFStorageFileType(td.encryptedFile.getAbsolutePath());
+         client.decryptFile(encryptedFileStorage, td.decryptedFile.getAbsolutePath());
+
+         TDFStorageType plaintextDataStorage = new TDFStorageType();
+         plaintextDataStorage.setTDFStorageBufferType(td.plaintextData);
+         td.encryptedData = client.encryptData(plaintextDataStorage);
+
+         TDFStorageType encryptedDataStorage = new TDFStorageType();
+         encryptedDataStorage.setTDFStorageBufferType(td.encryptedData);
+         td.decryptedData = client.decryptData(encryptedDataStorage);
 
          validateTestData(td);
       } catch (Exception e) {
@@ -110,11 +120,21 @@ public class virtru_java_sample {
          creds.setClientCredentialsClientSecret(k.clientId, k.clientSecret, k.organizationName, k.oidcEndpoint);
          TDFClient client = new TDFClient(creds, k.kasUrl);
 
-         client.encryptFile(td.plaintextFile.getAbsolutePath(), td.encryptedFile.getAbsolutePath());
-         client.decryptFile(td.encryptedFile.getAbsolutePath(), td.decryptedFile.getAbsolutePath());
+         TDFStorageType plaintextFileStorage = new TDFStorageType();
+         plaintextFileStorage.setTDFStorageFileType(td.plaintextFile.getAbsolutePath());
+         client.encryptFile(plaintextFileStorage, td.encryptedFile.getAbsolutePath());
 
-         td.encryptedData = client.encryptData(td.plaintextData);
-         td.decryptedData = client.decryptData(td.encryptedData);
+         TDFStorageType encryptedFileStorage = new TDFStorageType();
+         encryptedFileStorage.setTDFStorageFileType(td.encryptedFile.getAbsolutePath());
+         client.decryptFile(encryptedFileStorage, td.decryptedFile.getAbsolutePath());
+
+         TDFStorageType plaintextDataStorage = new TDFStorageType();
+         plaintextDataStorage.setTDFStorageBufferType(td.plaintextData);
+         td.encryptedData = client.encryptData(plaintextDataStorage);
+
+         TDFStorageType encryptedDataStorage = new TDFStorageType();
+         encryptedDataStorage.setTDFStorageBufferType(td.encryptedData);
+         td.decryptedData = client.decryptData(encryptedDataStorage);
 
          validateTestData(td);
       } catch (Exception e) {
