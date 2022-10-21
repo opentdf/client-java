@@ -59,5 +59,3 @@ NanoTDFClient client = new NanoTDFClient(eas_url, user_id);
 client.encryptFile(unprotected_file, protected_file);
 ```
 
-[Terms of Service](https://www.virtru.com/terms-of-service/)
-[Privacy Policy](https://www.virtru.com/privacy-policy/)
