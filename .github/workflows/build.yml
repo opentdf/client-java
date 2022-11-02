@@ -31,6 +31,11 @@ jobs:
           cd ${{ github.workspace }}
           ./build-all.sh
 
+      - name: Upload Linux Java SDK
+        uses: actions/upload-artifact@v2
+        with:
+          name: opentdf-tdf-linux
+          path: tdf-lib-java
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
   run-build-windows:
@@ -49,6 +54,11 @@ jobs:
         uses: actions/checkout@v2
       - run: echo "💡 The %github.repository% repository has been cloned to the runner."
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+            python-version:3.9
+
       - name: Install Conan
         run: pip3 install conan==${{ env.CONAN_VER }} --force
 
@@ -61,6 +71,12 @@ jobs:
           .\build-all.bat
           cd build
           msbuild RUN_TESTS.vcxproj /p:Configuration=Release
+
+      - name: Upload Windows Java SDK
+        uses: actions/upload-artifact@v2
+        with:
+          name: opentdf-tdf-win
+          path: tdf-lib-java
 
       - run: echo "🍏 This job's status is %job.status%."
 
@@ -76,6 +92,11 @@ jobs:
         uses: actions/checkout@v2
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+            python-version:3.9
+
       - name: Install Conan
         run: pip3 install conan==${{ env.CONAN_VER }} --force
 
@@ -83,6 +104,12 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           ./build-all.sh
+
+      - name: Upload MacOS Java SDK
+        uses: actions/upload-artifact@v2
+        with:
+          name: opentdf-tdf-macos
+          path: tdf-lib-java
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
