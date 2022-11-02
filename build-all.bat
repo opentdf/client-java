@@ -1,5 +1,5 @@
 set PROJECT_DIR=%~dp0
-set TDF_JAVA_OUTPUT=tdf-lib-java
+set TDF_JAVA_OUTPUT=opentdf-lib-java
 set TDF_CMAKE_BUILD_DIR=build
 
 rmdir /s /q %TDF_CMAKE_BUILD_DIR%

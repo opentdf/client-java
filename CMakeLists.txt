@@ -101,7 +101,7 @@ endif()
 ############################################################
 
 # Create java distribution directory
-set(TDF_LIB_INSTALL_LOCATION  ${PROJECT_SOURCE_DIR}/tdf-lib-java)
+set(TDF_LIB_INSTALL_LOCATION  ${PROJECT_SOURCE_DIR}/opentdf-lib-java)
 set(TDF_LIB_JAVA_INSTALL_LOCATION  ${TDF_LIB_INSTALL_LOCATION})
 install(DIRECTORY DESTINATION ${TDF_LIB_JAVA_INSTALL_LOCATION})
 
