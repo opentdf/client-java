@@ -144,7 +144,7 @@ public class virtru_java_sample {
     }
 
     public static void main(String argv[]) throws Exception {
-        NativeLoader.loadLibrary("tdf-java");
+        NativeLoader.loadLibrary("opentdf-java");
 
         virtru_java_sample sample = new virtru_java_sample();
 

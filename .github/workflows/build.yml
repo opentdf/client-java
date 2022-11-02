@@ -35,7 +35,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build-output-ubuntu
+          name: opentdf-sdk-ubuntu
           path: |
             *.gz
 
@@ -43,7 +43,6 @@ jobs:
 
   run-build-windows:
     runs-on: windows-2019
-    needs: run-build-ubuntu
     env:
       VBUILDRELEASE: Release
       VBUILDDEBUG: Debug
@@ -71,7 +70,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build-output-windows
+          name: opentdf-sdk-windows
           path: |
             *.zip
 
@@ -79,7 +78,6 @@ jobs:
 
   run-build-mac:
     runs-on: macos-11
-    needs: run-build-ubuntu
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -100,7 +98,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build-output-mac
+          name: opentdf-sdk-mac
           path: |
             *.gz
 
