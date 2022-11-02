@@ -31,7 +31,7 @@ public class virtru_java_sample {
 
    public void prepareTestData(testData td) throws Exception {
 
-       String prefix = "tdf-sdk-java-test";
+       String prefix = "opentdf-sdk-java-test";
 
        td.plaintextFile = File.createTempFile(prefix, "plaintext");
        td.plaintextFile.deleteOnExit();

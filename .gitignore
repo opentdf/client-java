@@ -1,7 +1,10 @@
 build/*
+opentdf-lib-java/*
 tdf-lib-java/*
 *.zip
 *.gz
 target
 native*/dependency-reduced-pom.xml
 native*/target/
+native-osx_64/pom.xml.versionsBackup
+pom.xml.versionsBackup

@@ -5,7 +5,8 @@ class clientCsharpConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
 
     def requirements(self):
-        self.requires("opentdf-client/1.1.5@")
+        self.requires("opentdf-client/1.3.3@")
+        self.requires("zlib/1.2.12@")
 
     def build(self):
         cmake = CMake(self)

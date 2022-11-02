@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.virtru</groupId>
-  <artifactId>tdf-sdk-all</artifactId>
+  <artifactId>opentdf-sdk-all</artifactId>
   <version>1.9.9</version>
   <packaging>jar</packaging>
 
@@ -63,7 +63,7 @@
   <dependencies>
     <dependency>
       <groupId>com.virtru</groupId>
-      <artifactId>tdf-sdk</artifactId>
+      <artifactId>opentdf-sdk</artifactId>
       <version>1.9.9</version>
     </dependency>
     <dependency>
@@ -75,7 +75,7 @@
     <!-- FIXME:  Someday...
     <dependency>
       <groupId>com.vitru</groupId>
-      <artifactId>tdf-sdk-native-windows_64</artifactId>
+      <artifactId>opentdf-sdk-native-windows_64</artifactId>
       <version>1.9.9</version>
       <scope>runtime</scope>
     </dependency>
@@ -83,14 +83,14 @@
 
     <dependency>
       <groupId>com.virtru</groupId>
-      <artifactId>tdf-sdk-native-linux_64</artifactId>
+      <artifactId>opentdf-sdk-native-linux_64</artifactId>
       <version>1.9.9</version>
       <scope>runtime</scope>
     </dependency>
 
     <dependency>
       <groupId>com.virtru</groupId>
-      <artifactId>tdf-sdk-native-osx_64</artifactId>
+      <artifactId>opentdf-sdk-native-osx_64</artifactId>
       <version>1.9.9</version>
       <scope>runtime</scope>
     </dependency>

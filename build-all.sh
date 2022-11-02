@@ -1,8 +1,8 @@
 #!/bin/bash
 set -ex
 export TDF_JAVA_BUILD="build"
-export TDF_JAVA_LIB_OUTPUT="tdf-lib-java"
-export TDF_JAVA_LIB_ARCHIVE="tdf-lib-java.tar.gz"
+export TDF_JAVA_LIB_OUTPUT="opentdf-lib-java"
+export TDF_JAVA_LIB_ARCHIVE="opentdf-lib-java.tar.gz"
 
 # OSX build options
 if [[ $OSTYPE == "darwin"* ]]; then
@@ -26,6 +26,6 @@ conan install .. --build=missing
 conan build .. -bf .
 cd ..
 
-cp native-*/target/tdf-sdk-*.jar $TDF_JAVA_LIB_OUTPUT
+cp native-*/target/opentdf-sdk-*.jar $TDF_JAVA_LIB_OUTPUT
 cp -rp target/swig/doc $TDF_JAVA_LIB_OUTPUT
 tar -zcvf "$TDF_JAVA_LIB_ARCHIVE" "$TDF_JAVA_LIB_OUTPUT"

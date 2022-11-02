@@ -7,7 +7,7 @@ cmake_minimum_required (VERSION 3.8)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Set the project name
-project(tdf-java)
+project(opentdf-java)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
@@ -123,7 +123,7 @@ else()
   endif()
 endif()
 
-set(TDF_SWIG_JAVA_PLAT_JAR "native-${TDF_SWIG_JAVA_PLAT_NAME}/target/tdf-sdk-${TDF_SWIG_JAVA_PLAT_NAME}-${TDF_SWIG_JAVA_VERSION}.jar")
+set(TDF_SWIG_JAVA_PLAT_JAR "native-${TDF_SWIG_JAVA_PLAT_NAME}/target/opentdf-sdk-${TDF_SWIG_JAVA_PLAT_NAME}-${TDF_SWIG_JAVA_VERSION}.jar")
 set(TDF_JAVA_EXAMPLES ${PROJECT_SOURCE_DIR}/examples)
 set(TDF_JAVA_DOC ${TDF_SWIG_JAVA_TARGET_DIR}/doc)
 message(STATUS "TDF_JAVA_DOC=${TDF_JAVA_DOC}")
