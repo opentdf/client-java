@@ -90,7 +90,7 @@ jobs:
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
 
       - name: Install Conan
-        run: pip3 install conan==${{ env.CONAN_VER }} --force
+        run: python3 -m pip3 install conan==${{ env.CONAN_VER }} --force
 
       - name: Run build
         run: |
