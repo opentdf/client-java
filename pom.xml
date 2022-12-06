@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.virtru</groupId>
-  <artifactId>tdf-sdk</artifactId>
+  <artifactId>opentdf-sdk</artifactId>
   <version>1.9.9</version>
   <packaging>jar</packaging>
 

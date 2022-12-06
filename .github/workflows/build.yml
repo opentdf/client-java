@@ -35,7 +35,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build-output-ubuntu
+          name: opentdf-sdk-ubuntu
           path: |
             *.gz
 
@@ -71,7 +71,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build-output-windows
+          name: opentdf-sdk-windows
           path: |
             *.zip
 
@@ -105,7 +105,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build-output-mac
+          name: opentdf-sdk-mac
           path: |
             *.gz
 
