@@ -14,7 +14,7 @@ public class virtru_java_sample {
        static String clientSecret = "123-456";
        static String organizationName = "tdf";
        static String oidcEndpoint = "http://localhost:65432/";
-       static String kasUrl = "http://localhost:65432/kas";
+       static String kasUrl = "http://localhost:65432/api/kas";
    }
 
    public class testData {
