@@ -127,13 +127,9 @@ jobs:
           name: build-output-ubuntu
           path: dist
 
-      - name: Ls
-        run: |
-          ls dist
-
       - name: Untar artifact
         run: |
-          tar -xzvf dist/*.tgz
+          tar -xzvf dist/*.tar.gz
 
       - name: Git clone opentdf 
         run: |
