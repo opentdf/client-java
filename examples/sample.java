@@ -13,8 +13,8 @@ public class virtru_java_sample {
        static String clientId = "tdf-client";
        static String clientSecret = "123-456";
        static String organizationName = "tdf";
-       static String oidcEndpoint = "http://localhost:8080";
-       static String kasUrl = "http://localhost:8000";
+       static String oidcEndpoint = "http://localhost:65432/";
+       static String kasUrl = "http://localhost:65432/kas";
    }
 
    public class testData {
