@@ -125,11 +125,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-output-ubuntu
-          path: dist
 
       - name: Untar artifact
         run: |
-          tar -xzvf dist/*.tar.gz
+          tar -xzvf *.tar.gz
 
       - name: Git clone opentdf 
         run: |
