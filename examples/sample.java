@@ -106,6 +106,7 @@ public class virtru_java_sample {
       } catch (Exception e) {
          System.out.println("Exception" + e.toString());
          System.out.println("Caught");
+         throw e;
       }
    }
 
@@ -140,6 +141,7 @@ public class virtru_java_sample {
       } catch (Exception e) {
          System.out.println("Exception" + e.toString());
          System.out.println("Caught");
+         throw e;
       }
    }
 
@@ -155,6 +157,7 @@ public class virtru_java_sample {
       } catch (Exception e) {
          System.out.println("Exception" + e.toString());
          System.out.println("Caught");
+         throw e;
       }
    }
 }
