@@ -17,7 +17,7 @@ jobs:
     steps:
     - name: running
       env:
-        EX: ${{ fromJSON('{"false":90,"true":3}')[github.event_name == 'pull_request'] }}
+        EX: ${{ fromJSON('{"false":90,"true":3}')[github.event_name != 'pull_request'] }}
       run: |
         printenv EX
       
