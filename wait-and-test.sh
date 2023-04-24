@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
-MAKEFILE_LOCTION="${APP_DIR}/dist/satdf-lib-java/examples"
+MAKEFILE_LOCTION="${APP_DIR}/dist/tdf-lib-java/examples"
 
 _wait-for() {
   echo "[INFO] In retry loop for quickstarted opentdf backend..."
