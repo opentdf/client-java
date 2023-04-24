@@ -75,7 +75,7 @@ public class virtru_java_sample {
 
    }
 
-   public void doNanoOidc() {
+   public void doNanoOidc() throws Exception {
       try {
          System.out.println("Using NanoTDF client with OIDC credentials");
 
@@ -110,7 +110,7 @@ public class virtru_java_sample {
       }
    }
 
-   public void doTDFOidc() {
+   public void doTDFOidc() throws Exception {
       try {
          System.out.println("Using TDF client with OIDC credentials");
 
