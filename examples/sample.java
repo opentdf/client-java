@@ -103,7 +103,7 @@ public class virtru_java_sample {
          td.decryptedData = client.decryptData(encryptedDataStorage);
 
          validateTestData(td);
-      } catch (Exception e) {
+      } catch (RuntimeException e) {
          System.out.println("Exception" + e.toString());
          System.out.println("Caught");
          throw e;
@@ -138,7 +138,7 @@ public class virtru_java_sample {
          td.decryptedData = client.decryptData(encryptedDataStorage);
 
          validateTestData(td);
-      } catch (Exception e) {
+      } catch (RuntimeException e) {
          System.out.println("Exception" + e.toString());
          System.out.println("Caught");
          throw e;
