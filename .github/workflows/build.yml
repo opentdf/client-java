@@ -17,7 +17,7 @@ jobs:
     steps:
     - name: running
       env:
-        EX: ${{ github.event_name == 'pull_request' && 3 || 90 }}
+        EX: ${{ github.event_name != 'pull_request' && 3 || 90 }}
       run: |
         printenv EX
 

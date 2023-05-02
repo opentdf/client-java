@@ -10,7 +10,7 @@ if [[ $OSTYPE == "darwin"* ]]; then
   export VBUILD_ADD_MACOS_FLAGS="true"
   if [[ "${JAVA_HOME}x" == "x" ]]; then
     echo "JAVA_HOME not set, attempting to fix"
-    export JAVA_HOME=`/usr/libexec/java_home`
+    export JAVA_HOME=$(/usr/libexec/java_home)
   else
     echo "JAVA_HOME already set"
   fi
