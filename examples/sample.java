@@ -13,8 +13,8 @@ public class virtru_java_sample {
        static String clientId = "tdf-client";
        static String clientSecret = "123-456";
        static String organizationName = "tdf";
-       static String oidcEndpoint = "http://localhost:8080";
-       static String kasUrl = "http://localhost:8000";
+       static String oidcEndpoint = "http://localhost:65432/";
+       static String kasUrl = "http://localhost:65432/api/kas";
    }
 
    public class testData {
@@ -75,7 +75,7 @@ public class virtru_java_sample {
 
    }
 
-   public void doNanoOidc() {
+   public void doNanoOidc() throws Exception {
       try {
          System.out.println("Using NanoTDF client with OIDC credentials");
 
@@ -103,13 +103,14 @@ public class virtru_java_sample {
          td.decryptedData = client.decryptData(encryptedDataStorage);
 
          validateTestData(td);
-      } catch (Exception e) {
+      } catch (RuntimeException e) {
          System.out.println("Exception" + e.toString());
          System.out.println("Caught");
+         throw e;
       }
    }
 
-   public void doTDFOidc() {
+   public void doTDFOidc() throws Exception {
       try {
          System.out.println("Using TDF client with OIDC credentials");
 
@@ -137,9 +138,10 @@ public class virtru_java_sample {
          td.decryptedData = client.decryptData(encryptedDataStorage);
 
          validateTestData(td);
-      } catch (Exception e) {
+      } catch (RuntimeException e) {
          System.out.println("Exception" + e.toString());
          System.out.println("Caught");
+         throw e;
       }
    }
 
@@ -155,6 +157,7 @@ public class virtru_java_sample {
       } catch (Exception e) {
          System.out.println("Exception" + e.toString());
          System.out.println("Caught");
+         throw e;
       }
    }
 }
