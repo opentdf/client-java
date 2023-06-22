@@ -33,11 +33,13 @@ jobs:
         with:
           repository: opentdf/client-cpp
           ref: 1.4.0
+          path: client-cpp
 
       - name: Run client-cpp build
         run: |
           cd ${{ github.workspace }}
           ls -al
+          ls -al client-cpp
           cd client-cpp/src
           ./build-all.sh
 
