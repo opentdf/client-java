@@ -31,17 +31,17 @@ jobs:
       - name: Check out client-cpp code
         uses: actions/checkout@v3
         with:
-          repository: opentdf/client-cpp
-          ref: 1.4.0
-          path: client-cpp
+          repository: opentdf/client-conan
+          ref: PLAT-2507-build-without-CCI
+          path: client-conan
 
       - name: Run client-cpp build
         run: |
           cd ${{ github.workspace }}
           ls -al
-          ls -al client-cpp
-          cd client-cpp/src
-          ./build-all.sh
+          ls -al client-conan
+          cd client-conan
+          conan create recipe/all opentdf-client/1.4.0@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=True
 
       - name: Run build
         run: |
