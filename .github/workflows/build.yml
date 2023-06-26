@@ -10,6 +10,11 @@ on:
 env:
   VBUILD_UNIT_TESTS: false
   CONAN_VER: 1.59.0
+  # Would be nice if this value was set automagically when client-cpp is released and consumed everywhere
+  CLIENT_CPP_VER: 1.4.0
+  CONAN_BRANCH_VERSION: True
+  # TODO- rename this to 'main' after the recipe PR below is merged and before this PR is merged
+  CONAN_RECIPE_VER: PLAT-2507-build-without-CCI
 jobs:
 
   run-build-ubuntu:
@@ -32,16 +37,14 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: opentdf/client-conan
-          ref: PLAT-2507-build-without-CCI
+          ref: ${{ CONAN_RECIPE_VER }}
           path: client-conan
 
-      - name: Run client-cpp build
+      - name: Get client-cpp into conan local cache, built from repo if necessary
         run: |
           cd ${{ github.workspace }}
-          ls -al
-          ls -al client-conan
           cd client-conan
-          conan create recipe/all opentdf-client/1.4.0@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=True
+          conan create recipe/all opentdf-client/${{ env.CLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.CONAN_BRANCH_VERSION }}
 
       - name: Run build
         run: |
@@ -76,6 +79,19 @@ jobs:
 
       - name: Install Conan
         run: pip3 install conan==${{ env.CONAN_VER }} --force
+
+      - name: Check out client-cpp code
+        uses: actions/checkout@v3
+        with:
+          repository: opentdf/client-conan
+          ref: ${{ CONAN_RECIPE_VER }}
+          path: client-conan
+
+      - name: Get client-cpp into conan local cache, built from repo if necessary
+        run: |
+          cd ${{ github.workspace }}
+          cd client-conan
+          conan create recipe/all opentdf-client/${{ env.CLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.CONAN_BRANCH_VERSION }}
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
@@ -114,6 +130,19 @@ jobs:
 
       - name: Install Conan
         run: pip3 install conan==${{ env.CONAN_VER }} --force
+
+      - name: Check out client-cpp code
+        uses: actions/checkout@v3
+        with:
+          repository: opentdf/client-conan
+          ref: ${{ CONAN_RECIPE_VER }}
+          path: client-conan
+
+      - name: Get client-cpp into conan local cache, built from repo if necessary
+        run: |
+          cd ${{ github.workspace }}
+          cd client-conan
+          conan create recipe/all opentdf-client/${{ env.CLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.CONAN_BRANCH_VERSION }}
 
       - name: Run build
         run: |
