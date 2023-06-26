@@ -9,12 +9,12 @@ on:
     - cron: "0 7 * * 1,3,5"
 env:
   VBUILD_UNIT_TESTS: false
-  CONAN_VER: 1.59.0
+  VCONAN_VER: 1.59.0
   # Would be nice if this value was set automagically when client-cpp is released and consumed everywhere
-  CLIENT_CPP_VER: 1.4.0
-  CONAN_BRANCH_VERSION: True
+  VCLIENT_CPP_VER: 1.4.0
+  VCONAN_BRANCH_VERSION: True
   # recipe should usually pull from 'main' but can be changed to a branch name if recipe changes are pending
-  CONAN_RECIPE_VER: main
+  VCONAN_RECIPE_VER: main
 jobs:
 
   run-build-ubuntu:
@@ -31,20 +31,20 @@ jobs:
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
 
       - name: Install Conan
-        run: pip3 install conan==${{ env.CONAN_VER }} --force
+        run: pip3 install conan==${{ env.VCONAN_VER }} --force
 
       - name: Check out client-cpp code
         uses: actions/checkout@v3
         with:
           repository: opentdf/client-conan
-          ref: ${{ CONAN_RECIPE_VER }}
+          ref: ${{ env.VCONAN_RECIPE_VER }}
           path: client-conan
 
       - name: Get client-cpp into conan local cache, built from repo if necessary
         run: |
           cd ${{ github.workspace }}
           cd client-conan
-          conan create recipe/all opentdf-client/${{ env.CLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.CONAN_BRANCH_VERSION }}
+          conan create recipe/all opentdf-client/${{ env.CLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
 
       - name: Run build
         run: |
@@ -78,20 +78,20 @@ jobs:
       - run: echo "💡 The %github.repository% repository has been cloned to the runner."
 
       - name: Install Conan
-        run: pip3 install conan==${{ env.CONAN_VER }} --force
+        run: pip3 install conan==${{ env.VCONAN_VER }} --force
 
       - name: Check out client-cpp code
         uses: actions/checkout@v3
         with:
           repository: opentdf/client-conan
-          ref: ${{ CONAN_RECIPE_VER }}
+          ref: ${{ env.VCONAN_RECIPE_VER }}
           path: client-conan
 
       - name: Get client-cpp into conan local cache, built from repo if necessary
         run: |
           cd ${{ github.workspace }}
           cd client-conan
-          conan create recipe/all opentdf-client/${{ env.CLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.CONAN_BRANCH_VERSION }}
+          conan create recipe/all opentdf-client/${{ env.CLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
@@ -129,20 +129,20 @@ jobs:
             python-version: 3.11
 
       - name: Install Conan
-        run: pip3 install conan==${{ env.CONAN_VER }} --force
+        run: pip3 install conan==${{ env.VCONAN_VER }} --force
 
       - name: Check out client-cpp code
         uses: actions/checkout@v3
         with:
           repository: opentdf/client-conan
-          ref: ${{ CONAN_RECIPE_VER }}
+          ref: ${{ env.VCONAN_RECIPE_VER }}
           path: client-conan
 
       - name: Get client-cpp into conan local cache, built from repo if necessary
         run: |
           cd ${{ github.workspace }}
           cd client-conan
-          conan create recipe/all opentdf-client/${{ env.CLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.CONAN_BRANCH_VERSION }}
+          conan create recipe/all opentdf-client/${{ env.CLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
 
       - name: Run build
         run: |
