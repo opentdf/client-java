@@ -12,7 +12,7 @@ env:
   VCONAN_VER: 1.59.0
   # Would be nice if this value was set automagically when client-cpp is released and consumed everywhere
   VCLIENT_CPP_VER: 1.4.0
-  VCONAN_BRANCH_VERSION: True
+  VCONAN_BRANCH_VERSION: "True"
   # recipe should usually pull from 'main' but can be changed to a branch name if recipe changes are pending
   VCONAN_RECIPE_VER: main
 jobs:
