@@ -44,7 +44,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           cd client-conan
-          conan create recipe/all opentdf-client/${{ env.CLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
+          conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
 
       - name: Run build
         run: |
@@ -91,7 +91,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           cd client-conan
-          conan create recipe/all opentdf-client/${{ env.CLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
+          conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
@@ -142,7 +142,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           cd client-conan
-          conan create recipe/all opentdf-client/${{ env.CLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
+          conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
 
       - name: Run build
         run: |
