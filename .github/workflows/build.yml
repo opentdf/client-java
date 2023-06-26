@@ -13,8 +13,8 @@ env:
   # Would be nice if this value was set automagically when client-cpp is released and consumed everywhere
   CLIENT_CPP_VER: 1.4.0
   CONAN_BRANCH_VERSION: True
-  # TODO- rename this to 'main' after the recipe PR below is merged and before this PR is merged
-  CONAN_RECIPE_VER: PLAT-2507-build-without-CCI
+  # recipe should usually pull from 'main' but can be changed to a branch name if recipe changes are pending
+  CONAN_RECIPE_VER: main
 jobs:
 
   run-build-ubuntu:
