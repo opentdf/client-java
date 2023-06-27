@@ -32,6 +32,7 @@ namespace std {
 %{
 #include "tdf_constants.h"
 #include "oidc_credentials.h"
+#include "tdf_assertion.h"
 #include "tdf_storage_type.h"
 #include "tdf_client_base.h"
 #include "tdf_client.h"
@@ -55,6 +56,7 @@ https://stackoverflow.com/questions/69496549/wrap-all-swig-generated-methods-in-
 
 %include "tdf_constants.h"
 %include "oidc_credentials.h"
+%include "tdf_assertion.h"
 %include "tdf_storage_type.h"
 %include "tdf_client_base.h"
 %include "tdf_client.h"
