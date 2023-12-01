@@ -61,6 +61,56 @@ jobs:
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
+  run-build-manylinux-aarch64:
+    runs-on: ubuntu-latest
+    needs: run-build-ubuntu
+
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm64
+      
+      - name: Check out repository code
+        uses: actions/checkout@v3
+    
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+    
+      - name: Install Conan
+        run: pip3 install conan==${{ env.VCONAN_VER }} --force
+    
+      - name: Check out client-cpp code
+        uses: actions/checkout@v3
+        with:
+          repository: opentdf/client-conan
+          ref: ${{ env.VCONAN_RECIPE_VER }}
+          path: client-conan
+    
+      - name: Get client-cpp into conan local cache, built from repo if necessary
+        run: |
+          cd ${{ github.workspace }}
+          cd client-conan
+          conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
+    
+      - name: Run build
+        run: |
+          cd ${{ github.workspace }}
+          ./build-all.sh
+    
+      - name: Save artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output-ubuntu
+          retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
+          path: |
+            *.gz
+    
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+
   run-build-windows:
     runs-on: windows-2019
     needs: run-build-ubuntu
@@ -222,6 +272,7 @@ jobs:
     needs:
       - run-build-mac
       - run-build-ubuntu
+      - run-build-manylinux-aarch64
       - run-build-windows
       - test-with-quickstart
     if: always()
