@@ -5,3 +5,4 @@ tdf-lib-java/*
 target
 native*/dependency-reduced-pom.xml
 native*/target/
+client-conan/
