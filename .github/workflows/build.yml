@@ -104,7 +104,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build-output-ubuntu
+          name: build-output-linux-aarch64
           retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
           path: |
             *.gz
