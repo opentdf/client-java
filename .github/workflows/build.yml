@@ -72,34 +72,14 @@ jobs:
 
       - name: Check out repository code
         uses: actions/checkout@v3
-    
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-    
-      - name: Check out client-cpp code
-        uses: actions/checkout@v3
-        with:
-          repository: opentdf/client-conan
-          ref: ${{ env.VCONAN_RECIPE_VER }}
-          path: client-conan
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
           platforms: arm64
   
-      - name: Install Conan
-        run: pip3 install conan==${{ env.VCONAN_VER }} --force
-      
-      - name: Get client-cpp into conan local cache, built from repo if necessary
-        run: |
-          cd ${{ github.workspace }}
-          cd client-conan
-          conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
-    
-      - name: Run build
-        run: |
-          cd ${{ github.workspace }}
-          ./build-all.sh
+      - name: Build
+        run: ./docker/manylinux_aarch64/deploy.sh
     
       - name: Save artifacts
         uses: actions/upload-artifact@v3
