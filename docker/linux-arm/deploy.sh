@@ -7,7 +7,6 @@ echo "Building aarch64 java sdk"
 PLAT=aarch64
 DOCKER_IMAGE=ubuntu:22.04
 
-# Note that ALL non-fips tests fail to build on manylinux (and have for some time apparently), so we're turning them off
 docker pull $DOCKER_IMAGE
 docker run --rm \
    -v `pwd`:/io \
