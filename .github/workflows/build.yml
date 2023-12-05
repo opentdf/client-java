@@ -79,7 +79,7 @@ jobs:
           platforms: arm64
   
       - name: Build
-        run: ./docker/manylinux_aarch64/deploy.sh
+        run: ./docker/linux-arm/deploy.sh
     
       - name: Save artifacts
         uses: actions/upload-artifact@v3
