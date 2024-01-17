@@ -250,9 +250,9 @@ jobs:
 
   ci:
     needs:
+      - run-build-manylinux-aarch64
       # - run-build-mac
       # - run-build-ubuntu
-      - run-build-manylinux-aarch64
       # - run-build-windows
       # - test-with-quickstart
     if: always()
