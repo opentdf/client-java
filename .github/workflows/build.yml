@@ -296,11 +296,11 @@ jobs:
 
   ci:
     needs:
-      # - run-build-mac
       - run-build-ubuntu
       - run-build-manylinux-aarch64
       # - run-build-windows
       # - test-with-quickstart
+      # - run-build-mac
     if: always()
     runs-on: ubuntu-latest
     steps:
