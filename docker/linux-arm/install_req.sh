@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e -x
 
+apt-get update
+
+apt-cache madison openssh-client
+
 apt-get update &&  apt-get install -y --no-install-recommends build-essential=12.9ubuntu3 \
   cmake=3.22.1-1ubuntu1.22.04.1 \
   git=1:2.34.1-1ubuntu1.10 \
