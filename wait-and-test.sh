@@ -5,7 +5,7 @@ MAKEFILE_LOCATION="${APP_DIR}/examples"
 
 _wait-for() {
   echo "[INFO] In retry loop for quickstarted opentdf backend..."
-  limit=1
+  limit=5
   for i in $(seq 1 $limit); do
     if make; then
       return 0
