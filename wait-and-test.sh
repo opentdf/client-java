@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
-MAKEFILE_LOCATION="${APP_DIR}/tdf-lib-java/examples"
+MAKEFILE_LOCATION="${APP_DIR}/examples"
 
 _wait-for() {
   echo "[INFO] In retry loop for quickstarted opentdf backend..."
-  limit=5
+  limit=1
   for i in $(seq 1 $limit); do
     if make; then
       return 0
