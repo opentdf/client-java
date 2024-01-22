@@ -52,7 +52,7 @@ jobs:
   #         ./build-all.sh
 
   #     - name: Save artifacts
-  #       uses: actions/upload-artifact@v3
+  #       uses: actions/upload-artifact@v4
   #       with:
   #         name: build-output-ubuntu
   #         retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
@@ -82,7 +82,7 @@ jobs:
   #       run: ./docker/linux-arm/deploy.sh
     
   #     - name: Save artifacts
-  #       uses: actions/upload-artifact@v3
+  #       uses: actions/upload-artifact@v4
   #       with:
   #         name: build-output-ubuntu-arm64
   #         retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
@@ -132,7 +132,7 @@ jobs:
   #         .\build-all.bat
 
   #     - name: Save artifacts
-  #       uses: actions/upload-artifact@v3
+  #       uses: actions/upload-artifact@v4
   #       with:
   #         name: build-output-windows
   #         retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
@@ -180,7 +180,7 @@ jobs:
   #         ./build-all.sh
 
   #     - name: Save artifacts
-  #       uses: actions/upload-artifact@v3
+  #       uses: actions/upload-artifact@v4
   #       with:
   #         name: build-output-mac
   #         retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
@@ -227,7 +227,7 @@ jobs:
   #         ./build-all.sh
 
   #     - name: Save artifacts
-  #       uses: actions/upload-artifact@v3
+  #       uses: actions/upload-artifact@v4
   #       with:
   #         name: build-output-mac-m1
   #         retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
@@ -257,7 +257,7 @@ jobs:
         run: echo "VERSION=$(cat TDF-SDK-VERSION)" >> $GITHUB_ENV
 
       - name: Download linux amd64 artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-output-ubuntu
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -269,7 +269,7 @@ jobs:
           cp tdf-lib-java/tdf-sdk-linux_64-$VERSION.jar multi/tdf-sdk-linux_amd64-$VERSION.jar
 
       - name: Download linux arm64 artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-output-ubuntu-arm64
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -281,7 +281,7 @@ jobs:
           cp tdf-lib-java/tdf-sdk-linux_64-$VERSION.jar multi/tdf-sdk-linux_arm64-$VERSION.jar
 
       - name: Download mac amd64 artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-output-mac
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -297,7 +297,7 @@ jobs:
           cd multi && ./build-multi-sdk.sh
 
       - name: Save artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-output-multi
           retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
