@@ -61,11 +61,12 @@
     </pluginRepositories>
 
   <dependencies>
+    <!-- FIXME: publish them
     <dependency>
       <groupId>com.virtru</groupId>
       <artifactId>tdf-sdk</artifactId>
       <version>1.9.9</version>
-    </dependency>
+    </dependency> -->
     <dependency>
       <groupId>org.scijava</groupId>
       <artifactId>native-lib-loader</artifactId>
@@ -81,7 +82,7 @@
     </dependency>
     -->
 
-    <dependency>
+    <!-- <dependency>
       <groupId>com.virtru</groupId>
       <artifactId>tdf-sdk-native-linux_64</artifactId>
       <version>1.9.9</version>
@@ -93,7 +94,7 @@
       <artifactId>tdf-sdk-native-osx_64</artifactId>
       <version>1.9.9</version>
       <scope>runtime</scope>
-    </dependency>
+    </dependency> -->
   </dependencies>
 
   <build>
