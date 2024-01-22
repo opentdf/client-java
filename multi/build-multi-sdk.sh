@@ -28,7 +28,12 @@ curl -H "Accept: application/zip" https://repo1.maven.org/maven2/org/scijava/nat
 jar -xf native-lib-loader-2.5.0.jar
 rm  native-lib-loader-2.5.0.jar
 rm -rf META-INF/maven
+echo "FILES:"
+echo $(ls)
 jar cf tdf-sdk-all-$OUTPUT_VERSION.jar .
 mv tdf-sdk-all-$OUTPUT_VERSION.jar ../
 cd ../
+echo "FILES OUTSIDE:"
+echo $(ls)
+echo $(pwd)
 rm -rf tmpjar

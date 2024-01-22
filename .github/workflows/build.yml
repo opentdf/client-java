@@ -266,7 +266,7 @@ jobs:
       - name: Untar linux amd64 artifact, copy jar, and rename
         run: |
           tar -xzvf tdf-lib-java.tar.gz
-          cp tdf-lib-java/tdf-sdk-linux_64-$VERSION.jar multi/tdf-sdk-linux_amd64-$VERSION.jar
+          cp tdf-lib-java/tdf-sdk-linux_64-$VERSION.jar multi/tdf-sdk-linux_amd64-$VERSION.jar && rm -rf tdf-lib-java tdf-lib-java.tar.gz
 
       - name: Download linux arm64 artifact
         uses: actions/download-artifact@v4
@@ -278,7 +278,7 @@ jobs:
       - name: Untar linux arm64 artifact, copy jar, and rename
         run: |
           tar -xzvf tdf-lib-java.tar.gz
-          cp tdf-lib-java/tdf-sdk-linux_64-$VERSION.jar multi/tdf-sdk-linux_arm64-$VERSION.jar
+          cp tdf-lib-java/tdf-sdk-linux_64-$VERSION.jar multi/tdf-sdk-linux_arm64-$VERSION.jar && rm -rf tdf-lib-java tdf-lib-java.tar.gz
 
       - name: Download mac amd64 artifact
         uses: actions/download-artifact@v4
@@ -290,7 +290,7 @@ jobs:
       - name: Untar mac amd64 artifact, copy jar, and rename
         run: |
           tar -xzvf tdf-lib-java.tar.gz
-          cp tdf-lib-java/tdf-sdk-osx_64-$VERSION.jar multi/tdf-sdk-osx_amd64-$VERSION.jar
+          cp tdf-lib-java/tdf-sdk-osx_64-$VERSION.jar multi/tdf-sdk-osx_amd64-$VERSION.jar && rm -rf tdf-lib-java tdf-lib-java.tar.gz
 
       - name: Build the multi jar
         run: |
@@ -302,7 +302,7 @@ jobs:
           name: build-output-multi
           retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
           path: |
-            tdf-sdk-all-*.jar
+            multi/tdf-sdk-all-*.jar
 
       
 
