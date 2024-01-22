@@ -6,7 +6,7 @@ import org.scijava.nativelib.NativeLoader;
 
 import com.virtru.*;
 
-// public class virtru_java_sample {
+public class virtru_java_sample {
 
 //    public static class k {
 //        static String owner = "neep@yeep.dance"; 
