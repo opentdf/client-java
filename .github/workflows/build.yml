@@ -222,8 +222,6 @@ jobs:
           conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
 
       - name: Run build
-        env:
-          VBUILD_JAVA_MULTI: true
         run: |
           cd ${{ github.workspace }}
           ./build-all.sh
@@ -249,14 +247,35 @@ jobs:
   #         distribution: 'temurin'
   #         java-version: '11'
 
-  #     - name: Download artifact
+  #     - name: Download linux amd64 artifact
   #       uses: actions/download-artifact@v3
   #       with:
   #         name: build-output-ubuntu
 
-  #     - name: Untar artifact
+  #     - name: Untar linux amd64 artifact and rename
   #       run: |
-  #         tar -xzvf *.tar.gz
+  #         tar -xzvf tdf-lib-java.tar.gz
+  #         mv tdf-lib-java tdf-lib-java-linux-amd64
+
+  #     - name: Download linux arm64 artifact
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: build-output-ubuntu-arm64
+
+  #     - name: Untar linux arm64 artifact and rename
+  #       run: |
+  #         tar -xzvf tdf-lib-java.tar.gz
+  #         mv tdf-lib-java tdf-lib-java-linux-arm64
+
+  #     - name: Download mac amd64 artifact
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: build-output-mac
+
+  #     - name: Untar mac amd64 artifact and rename
+  #       run: |
+  #         tar -xzvf tdf-lib-java.tar.gz
+  #         mv tdf-lib-java tdf-lib-java-mac-amd64
 
   # test-with-quickstart:
   #   needs: run-build-ubuntu
