@@ -465,7 +465,7 @@ jobs:
   run-publish-mac:
     needs: [test-with-quickstart,run-build-multi,check-version-published]
     runs-on: ubuntu-latest
-    if: ${{ (github.ref == 'refs/heads/main') && (github.event_name != 'schedule') && (needs.check-version-published.outputs.version-published != env.VERSION) }}
+    if: ${{ (github.ref == 'refs/heads/main') && (github.event_name != 'schedule') && (needs.check-version-published.outputs.version-published != needs.check-version-published.outputs.current-version) }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -527,7 +527,7 @@ jobs:
   run-publish-multi:
     needs: [test-with-quickstart,run-build-multi,check-version-published]
     runs-on: ubuntu-latest
-    if: ${{ (github.ref == 'refs/heads/main') && (github.event_name != 'schedule') && (needs.check-version-published.outputs.version-published != env.VERSION) }}
+    if: ${{ (github.ref == 'refs/heads/main') && (github.event_name != 'schedule') && (needs.check-version-published.outputs.version-published != needs.check-version-published.outputs.current-version) }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
