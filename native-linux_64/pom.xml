@@ -151,12 +151,6 @@
             <releases><enabled>true</enabled></releases>
             <snapshots><enabled>false</enabled></snapshots>
         </repository>
-        <repository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/opentdf/client-java</url>
-            <releases><enabled>true</enabled></releases>
-            <snapshots><enabled>false</enabled></snapshots>
-        </repository>
     </distributionManagement>
 
 
