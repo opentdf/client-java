@@ -382,7 +382,7 @@ jobs:
         if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
 
   check-version-published:
-    needs: run-build-multi
+    needs: ci
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name != 'schedule'
     outputs:
@@ -401,7 +401,7 @@ jobs:
 
 
   run-publish-linux:
-    needs: [test-with-quickstart,run-build-multi,check-version-published]
+    needs: [check-version-published]
     runs-on: ubuntu-latest
     if: ${{ (github.ref == 'refs/heads/main') && (github.event_name != 'schedule') && (needs.check-version-published.outputs.version-published != needs.check-version-published.outputs.current-version) }}
     steps:
@@ -463,7 +463,7 @@ jobs:
           -Dclassifier=arm64
 
   run-publish-mac:
-    needs: [test-with-quickstart,run-build-multi,check-version-published]
+    needs: [check-version-published]
     runs-on: ubuntu-latest
     if: ${{ (github.ref == 'refs/heads/main') && (github.event_name != 'schedule') && (needs.check-version-published.outputs.version-published != needs.check-version-published.outputs.current-version) }}
     steps:
@@ -525,7 +525,7 @@ jobs:
           -Dclassifier=arm64
 
   run-publish-multi:
-    needs: [test-with-quickstart,run-build-multi,check-version-published]
+    needs: [check-version-published]
     runs-on: ubuntu-latest
     if: ${{ (github.ref == 'refs/heads/main') && (github.event_name != 'schedule') && (needs.check-version-published.outputs.version-published != needs.check-version-published.outputs.current-version) }}
     steps:
