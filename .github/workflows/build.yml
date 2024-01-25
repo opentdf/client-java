@@ -221,15 +221,9 @@ jobs:
           cd client-conan
           conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }} \
           -o boost:without_fiber=True \
-          -o boost:without_fiber_numa=True \
           -o boost:without_json=True \
           -o boost:without_locale=True \
-          -o boost:without_math_c99=True \
-          -o boost:without_math_c99f=True \
-          -o boost:without_math_c99l=True \
-          -o boost:without_math_tr1=True \
-          -o boost:without_math_tr1f=True \
-          -o boost:without_math_tr1l=True \
+          -o boost:without_math=True \
           -o boost:without_nowide=True \
           -o boost:without_url=True \
           -o boost:without_wave=True
