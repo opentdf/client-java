@@ -191,7 +191,7 @@ jobs:
 
   run-build-m1:
     runs-on: macos-13-xlarge
-    needs: run-build-mac
+    # needs: run-build-mac
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🍏 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -219,7 +219,20 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           cd client-conan
-          conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
+          conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }} \
+          -o boost:without_fiber \
+          -o boost:without_fiber_numa \
+          -o boost:without_json \
+          -o boost:without_locale \
+          -o boost:without_math_c99 \
+          -o boost:without_math_c99f \
+          -o boost:without_math_c99l \
+          -o boost:without_math_tr1 \
+          -o boost:without_math_tr1f \
+          -o boost:without_math_tr1l \
+          -o boost:without_nowide \
+          -o boost:without_url \
+          -o boost:without_wave
 
       - name: Run build
         run: |
