@@ -223,7 +223,6 @@ jobs:
           -o boost:without_fiber=True \
           -o boost:without_json=True \
           -o boost:without_locale=True \
-          -o boost:without_math=True \
           -o boost:without_nowide=True \
           -o boost:without_url=True \
           -o boost:without_wave=True
