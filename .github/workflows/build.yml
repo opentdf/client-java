@@ -219,7 +219,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           cd client-conan
-          conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }} -s compiler.cppstd=11
+          conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }} -s compiler.cppstd=17
 
       - name: Run build
         run: |
