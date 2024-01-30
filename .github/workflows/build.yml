@@ -17,79 +17,79 @@ env:
   VCONAN_RECIPE_VER: main
 jobs:
 
-  # run-build-ubuntu:
-  #   runs-on: ubuntu-20.04
-  #   timeout-minutes: 75
-  #   steps:
-  #     - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-  #     - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-  #     - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+  run-build-ubuntu:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 75
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
 
-  #     - name: Check out repository code
-  #       uses: actions/checkout@v3
+      - name: Check out repository code
+        uses: actions/checkout@v3
 
-  #     - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
 
-  #     - name: Install Conan
-  #       run: pip3 install conan==${{ env.VCONAN_VER }} --force
+      - name: Install Conan
+        run: pip3 install conan==${{ env.VCONAN_VER }} --force
 
-  #     - name: Check out client-cpp code
-  #       uses: actions/checkout@v3
-  #       with:
-  #         repository: opentdf/client-conan
-  #         ref: ${{ env.VCONAN_RECIPE_VER }}
-  #         path: client-conan
+      - name: Check out client-cpp code
+        uses: actions/checkout@v3
+        with:
+          repository: opentdf/client-conan
+          ref: ${{ env.VCONAN_RECIPE_VER }}
+          path: client-conan
 
-  #     - name: Get client-cpp into conan local cache, built from repo if necessary
-  #       run: |
-  #         cd ${{ github.workspace }}
-  #         cd client-conan
-  #         conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
+      - name: Get client-cpp into conan local cache, built from repo if necessary
+        run: |
+          cd ${{ github.workspace }}
+          cd client-conan
+          conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
 
-  #     - name: Run build
-  #       run: |
-  #         cd ${{ github.workspace }}
-  #         ./build-all.sh
+      - name: Run build
+        run: |
+          cd ${{ github.workspace }}
+          ./build-all.sh
 
-  #     - name: Save artifacts
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: build-output-ubuntu
-  #         retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
-  #         path: |
-  #           *.gz
+      - name: Save artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output-ubuntu
+          retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
+          path: |
+            *.gz
 
-  #     - run: echo "🐧 This job's status is ${{ job.status }}."
+      - run: echo "🐧 This job's status is ${{ job.status }}."
 
-  # run-build-manylinux-aarch64:
-  #   runs-on: ubuntu-latest
-  #   needs: run-build-ubuntu
+  run-build-manylinux-aarch64:
+    runs-on: ubuntu-latest
+    needs: run-build-ubuntu
 
-  #   steps:
-  #     - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-  #     - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-  #     - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
 
-  #     - name: Check out repository code
-  #       uses: actions/checkout@v3
+      - name: Check out repository code
+        uses: actions/checkout@v3
 
-  #     - name: Set up QEMU
-  #       uses: docker/setup-qemu-action@v2
-  #       with:
-  #         platforms: arm64
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm64
   
-  #     - name: Build
-  #       run: ./docker/linux-arm/deploy.sh
+      - name: Build
+        run: ./docker/linux-arm/deploy.sh
     
-  #     - name: Save artifacts
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: build-output-ubuntu-arm64
-  #         retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
-  #         path: |
-  #           *.gz
+      - name: Save artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output-ubuntu-arm64
+          retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
+          path: |
+            *.gz
     
-  #     - run: echo "🐧 This job's status is ${{ job.status }}."
+      - run: echo "🐧 This job's status is ${{ job.status }}."
 
   # run-build-windows:
   #   runs-on: windows-2019
@@ -366,20 +366,20 @@ jobs:
   #         pwd
   #         tilt ci
 
-  # ci:
-  #   needs:
-  #     - run-build-ubuntu
-  #     - test-with-quickstart
-  #     - run-build-manylinux-aarch64
-  #     # - run-build-mac
-  #     # - run-build-windows
-  #     # - run-build-multi
-  #     # - run-build-m1
-  #   if: always()
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - run: exit 1
-  #       if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+  ci:
+    needs:
+      - run-build-ubuntu
+      - run-build-manylinux-aarch64
+      # - test-with-quickstart
+      # - run-build-mac
+      # - run-build-windows
+      # - run-build-multi
+      # - run-build-m1
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 1
+        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
 
   # check-version-published:
   #   needs: ci
@@ -423,7 +423,7 @@ jobs:
 
 
   run-publish-linux:
-    # needs: [ci]
+    needs: [ci]
     # needs: [set-release-version]
     runs-on: ubuntu-latest
     # if: ${{ (github.ref == 'refs/heads/main') && (github.event_name != 'schedule') }}
@@ -443,16 +443,15 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-output-ubuntu
-          run-id: 7708430175
 
       - name: Untar linux amd64 artifact
         run: |
           tar -xzvf tdf-lib-java.tar.gz
       
       - name: Publish amd64 package
-        run: mvn --batch-mode deploy:deploy-file -e -s multi/settings.xml \
-          -DrepositoryId=github \
-          -Durl=https://maven.pkg.github.com/opentdf/client-java \
+        run: |-
+          mvn --batch-mode deploy:deploy-file -e -s multi/settings.xml \
+          -DrepositoryId=github -Durl=https://maven.pkg.github.com/opentdf/client-java \
           -Dfile=tdf-lib-java/tdf-sdk-linux_64-${{ env.VERSION }}.jar \
           -DgroupId=com.virtru \
           -DartifactId=tdf-sdk-linux_64 \
@@ -479,7 +478,6 @@ jobs:
           tar -xzvf tdf-lib-java.tar.gz
 
       - name: Publish arm64 package
-        if: github.ref == 'refs/heads/main' && github.event_name != 'schedule'
         run: |
           mvn --batch-mode deploy:deploy-file -s multi/settings.xml \
           -DrepositoryId=github \
