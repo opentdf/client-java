@@ -52,7 +52,7 @@ jobs:
           ./build-all.sh
 
       - name: Save artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: build-output-ubuntu
           retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
@@ -82,7 +82,7 @@ jobs:
         run: ./docker/linux-arm/deploy.sh
     
       - name: Save artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: build-output-ubuntu-arm64
           retention-days: ${{ github.event_name == 'pull_request' && 3 || 90 }}
@@ -219,6 +219,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           cd client-conan
+          conan remove boost/*
           conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
 
       - name: Run build
@@ -440,7 +441,7 @@ jobs:
         #echo "VERSION=${{ needs.set-release-version.outputs.package-version }}" >> $GITHUB_ENV
 
       - name: Download linux amd64 artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: build-output-ubuntu
 
@@ -468,10 +469,9 @@ jobs:
           rm -rf tdf-lib-java tdf-lib-java.tar.gz
 
       - name: Download linux arm64 artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: build-output-ubuntu-arm64
-          run-id: 7708430175
 
       - name: Untar linux arm64 artifact
         run: |
