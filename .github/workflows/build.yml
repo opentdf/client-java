@@ -191,7 +191,7 @@ jobs:
 
   run-build-m1:
     runs-on: macos-13-xlarge
-    needs: run-build-mac
+    # needs: run-build-mac
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🍏 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -219,6 +219,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           cd client-conan
+          conan remove boost/*
           conan create recipe/all opentdf-client/${{ env.VCLIENT_CPP_VER }}@ -pr:b=default --build=opentdf-client --build=missing -o opentdf-client:branch_version=${{ env.VCONAN_BRANCH_VERSION }}
 
       - name: Run build
@@ -237,7 +238,7 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
   run-build-multi:
-    needs: [run-build-ubuntu,run-build-manylinux-aarch64,run-build-mac,run-build-m1]
+    needs: [run-build-ubuntu,run-build-manylinux-aarch64,run-build-mac] #,run-build-m1]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -307,7 +308,6 @@ jobs:
 
       - run: echo "This job's status is ${{ job.status }}."
 
-      
   test-with-quickstart:
     needs: run-build-ubuntu
     runs-on: ubuntu-latest
@@ -369,15 +369,231 @@ jobs:
 
   ci:
     needs:
-      - run-build-mac
-      - run-build-m1
       - run-build-ubuntu
       - run-build-manylinux-aarch64
+      - test-with-quickstart
+      - run-build-mac
       - run-build-windows
       - run-build-multi
-      - test-with-quickstart
+      - run-build-m1
     if: always()
     runs-on: ubuntu-latest
     steps:
       - run: exit 1
         if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+
+  check-version-published:
+    needs: ci
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name != 'schedule'
+    outputs:
+      version-published: ${{ steps.versions.outputs.latest }}
+      current-version: ${{ steps.versions.outputs.current }}
+    steps:
+      - name: Set env
+        run: |-
+         echo "VERSION=${{ needs.set-release-version.outputs.package-version }}" >> $GITHUB_ENV
+      - id: versions
+        run: |-
+          echo "latest=$(gh api -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          orgs/opentdf/packages/maven/com.virtru.tdf-sdk-linux_64/versions \
+          | jq '[.[] ] | .[0] .metadata .container .tags[0]')" >> $GITHUB_OUTPUT"
+          echo "current=$VERSION" >> $GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  set-release-version:
+    needs: check-version-published
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name != 'schedule'
+    outputs:
+      package-version: ${{ steps.versions.outputs.use-version }}
+    steps:
+      - name: Set env
+        run: |-
+         echo "VERSION=${{ needs.set-release-version.outputs.package-version }}" >> $GITHUB_ENV
+         echo "SHORTSHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      - id: decide-version
+        run: |-
+          if [[ "${{ needs.check-version-published.outputs.version-published }}" == "${{ needs.check-version-published.outputs.current-version }}" ]]; then
+            echo "use-version=$VERSION-$SHORTSHA-SNAPSHOT" >> $GITHUB_OUTPUT"
+          else
+            echo "use-version=$VERSION" >> $GITHUB_OUTPUT"
+          fi
+
+
+  run-publish-linux:
+    # needs: [ci]
+    needs: [set-release-version]
+    runs-on: ubuntu-latest
+    if: ${{ (github.ref == 'refs/heads/main') && (github.event_name != 'schedule') }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          # See https://github.com/actions/setup-java#supported-distributions for list
+          distribution: 'temurin'
+          java-version: '11.0.22+7'
+
+      - name: Set env
+        run: echo "VERSION=$(cat TDF-SDK-VERSION)" >> $GITHUB_ENV
+        #echo "VERSION=${{ needs.set-release-version.outputs.package-version }}" >> $GITHUB_ENV
+
+      - name: Download linux amd64 artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-output-ubuntu
+
+      - name: Untar linux amd64 artifact
+        run: |
+          tar -xzvf tdf-lib-java.tar.gz
+      
+      - name: Publish amd64 package
+        run: |-
+          mvn --batch-mode deploy:deploy-file -e -s multi/settings.xml \
+          -DrepositoryId=github -Durl=https://maven.pkg.github.com/opentdf/client-java \
+          -Dfile=tdf-lib-java/tdf-sdk-linux_64-${{ env.VERSION }}.jar \
+          -DgroupId=com.virtru \
+          -DartifactId=tdf-sdk-linux_64 \
+          -Dversion=${{ env.VERSION }} \
+          -Dpackaging=jar \
+          -DgeneratePom=true
+          # -Dclassifier=amd64
+        env:
+          USERNAME: ${{ github.actor }}
+          PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove amd64 artifact
+        run: |
+          rm -rf tdf-lib-java tdf-lib-java.tar.gz
+
+      - name: Download linux arm64 artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-output-ubuntu-arm64
+
+      - name: Untar linux arm64 artifact
+        run: |
+          tar -xzvf tdf-lib-java.tar.gz
+
+      - name: Publish arm64 package
+        run: |
+          mvn --batch-mode deploy:deploy-file -s multi/settings.xml \
+          -DrepositoryId=github \
+          -Durl=https://maven.pkg.github.com/opentdf/client-java \
+          -Dfile=tdf-lib-java/tdf-sdk-linux_64-${{ env.VERSION }}.jar \
+          -DgroupId=com.virtru \
+          -DartifactId=tdf-sdk-linux_64 \
+          -Dversion=${{ env.VERSION }} \
+          -Dpackaging=jar \
+          -DgeneratePom=false \
+          -Dclassifier=arm64
+          # dont uplaod pom again
+        env:
+          USERNAME: ${{ github.actor }}
+          PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+  run-publish-mac:
+    needs: [set-release-version]
+    runs-on: ubuntu-latest
+    if: ${{ (github.ref == 'refs/heads/main') && (github.event_name != 'schedule') }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          # See https://github.com/actions/setup-java#supported-distributions for list
+          distribution: 'temurin'
+          java-version: '11.0.22+7'
+
+      - name: Set env
+        run: echo "VERSION=${{ needs.set-release-version.outputs.package-version }}" >> $GITHUB_ENV
+
+      - name: Download mac amd64 artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-output-mac
+
+      - name: Untar mac amd64 artifact
+        run: |
+          tar -xzvf tdf-lib-java.tar.gz
+      
+      - name: Publish amd64 package
+        run: mvn --batch-mode deploy:deploy-file -s multi/settings.xml \
+          -DrepositoryId=github \
+          -Durl=https://maven.pkg.github.com/opentdf/client-java \
+          -Dfile=tdf-lib-java/tdf-sdk-osx_64-${{ env.VERSION }}.jar \
+          -DgroupId=com.virtru \
+          -DartifactId=tdf-sdk-osx_64 \
+          -Dversion=${{ env.VERSION }} \
+          -Dpackaging=jar \
+          -DgeneratePom=true
+          # -Dclassifier=amd64
+        env:
+          USERNAME: ${{ github.actor }}
+          PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove amd64 artifact
+        run: |
+          rm -rf tdf-lib-java tdf-lib-java.tar.gz
+
+      - name: Download mac arm64 artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-output-mac-m1
+
+      - name: Untar mac arm64 artifact
+        run: |
+          tar -xzvf tdf-lib-java.tar.gz
+
+      - name: Publish arm64 package
+        if: github.ref == 'refs/heads/main' && github.event_name != 'schedule'
+        run: mvn --batch-mode deploy:deploy-file -s multi/settings.xml \
+          -DrepositoryId=github \
+          -Durl=https://maven.pkg.github.com/opentdf/client-java \
+          -Dfile=tdf-lib-java/tdf-sdk-osx_64-${{ env.VERSION }}.jar \
+          -DgroupId=com.virtru \
+          -DartifactId=tdf-sdk-osx_64 \
+          -Dversion=${{ env.VERSION }} \
+          -Dpackaging=jar \
+          -DgeneratePom=false \
+          -Dclassifier=arm64
+        env:
+          USERNAME: ${{ github.actor }}
+          PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+  run-publish-multi:
+    needs: [set-release-version]
+    runs-on: ubuntu-latest
+    if: ${{ (github.ref == 'refs/heads/main') && (github.event_name != 'schedule') }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          # See https://github.com/actions/setup-java#supported-distributions for list
+          distribution: 'temurin'
+          java-version: '11.0.22+7'
+
+      - name: Set env
+        run: echo "VERSION=${{ needs.set-release-version.outputs.package-version }}" >> $GITHUB_ENV
+
+      - name: Download multi artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-output-mac
+      
+      - name: Publish multi package
+        run: |-
+          mvn --batch-mode deploy:deploy-file -s multi/settings.xml \
+          -DrepositoryId=github \
+          -Durl=https://maven.pkg.github.com/opentdf/client-java \
+          -Dfile=tdf-sdk-all-${{ env.VERSION }}.jar \
+          -DgroupId=com.virtru \
+          -DartifactId=tdf-sdk-all \
+          -Dversion=${{ env.VERSION }} \
+          -Dpackaging=jar \
+          -DgeneratePom=true
+        env:
+          USERNAME: ${{ github.actor }}
+          PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      

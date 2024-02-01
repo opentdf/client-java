@@ -18,7 +18,7 @@ extract_native () {
   rm $inputJar
 }
 extract_native "tdf-sdk-osx_amd64-$TDF_SDK_VERSION.jar" "dylib" "osx_64"
-extract_native "tdf-sdk-osx_arm64-$INPUT_VERSION.jar" "dylib" "osx_arm64"
+# extract_native "tdf-sdk-osx_arm64-$INPUT_VERSION.jar" "dylib" "osx_arm64"
 extract_native "tdf-sdk-linux_amd64-$TDF_SDK_VERSION.jar" "so" "linux_amd64"
 extract_native "tdf-sdk-linux_amd64-$TDF_SDK_VERSION.jar" "so" "linux_64"
 extract_native "tdf-sdk-linux_arm64-$TDF_SDK_VERSION.jar" "so" "linux_arm64"
